@@ -43,18 +43,18 @@
 ### 完整模式
 
 1. 把整個資料夾(**含 `static/`**)推上 GitHub。
-2. 在 Render 另建 Web Service，選擇 `louis8791/rag-qa-pwa`，Root Directory 留空，並使用下方指令；如使用 Blueprint，使用本儲存庫根目錄的 `render.yaml`。不要覆蓋既有 ESG 服務。
-3. 填入環境變數 `GROQ_API_KEY`(到 [console.groq.com](https://console.groq.com/keys) 取得)。
+2. 在 Render 從 `louis8791/rag-qa-pwa` 建立新的 Blueprint，使用根目錄的 `render.yaml`。手動建立 Web Service 時，Root Directory 留空。
+3. 公開服務讓訪客在介面使用自己的 [Groq 金鑰](https://console.groq.com/keys)。
 4. 部署完成後,用 Render 網址開啟。
 
-手動建立 Web Service 時（Root Directory：`rag_qa`）:
+手動建立 Web Service 時（Root Directory 留空）:
 
 | 欄位 | 值 |
 |---|---|
 | Build Command | `pip install -r requirements.txt && python -c "from sentence_transformers import SentenceTransformer as S; S('intfloat/multilingual-e5-small')"` |
 | Start Command | `uvicorn app:app --host 0.0.0.0 --port $PORT` |
 | Health Check Path | `/healthz` |
-| 環境變數 | `PYTHON_VERSION=3.11.9`、`HF_HOME=/opt/render/project/src/.hf_cache`、`GROQ_API_KEY=...` |
+| 環境變數 | `PYTHON_VERSION=3.11.9`、`HF_HOME=/opt/render/project/src/.hf_cache` |
 
 Build Command 會在建置階段先下載嵌入模型,啟動時就不用再下載。
 
@@ -62,7 +62,7 @@ Build Command 會在建置階段先下載嵌入模型,啟動時就不用再下�
 
 - Build Command:`pip install -r requirements-lite.txt`
 - Start Command:`uvicorn app:app --host 0.0.0.0 --port $PORT`
-- 環境變數:`PYTHON_VERSION=3.11.9`、`EMBED_MODEL=none`、`GROQ_API_KEY=...`
+- 環境變數:`PYTHON_VERSION=3.11.9`、`EMBED_MODEL=none`
 
 輕量模式下,「語意搜尋」「混合」「HyDE」等策略會退化為關鍵字檢索。
 

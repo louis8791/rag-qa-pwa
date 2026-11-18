@@ -1,0 +1,10 @@
+# 輕量模式(EMBED_MODEL=none):不需要 torch / sentence-transformers / chromadb
+# 只有關鍵字檢索,但可在 512MB 記憶體的免費方案執行
+gradio>=5.0.0,<6.0.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+groq
+pypdf
+python-docx
+scikit-learn
+numpy

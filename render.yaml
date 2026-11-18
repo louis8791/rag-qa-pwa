@@ -1,0 +1,23 @@
+# ── 完整模式(語意 + 關鍵字檢索)──
+# 嵌入模型 + PyTorch 需要約 2GB 記憶體,請使用 standard(2GB)以上方案。
+# 免費方案(512MB)請改用輕量模式,見 README「輕量模式」。
+services:
+  - type: web
+    name: rag-qa-pwa
+    runtime: python
+    plan: standard
+    buildCommand: >-
+      pip install -r requirements.txt &&
+      python -c "from sentence_transformers import SentenceTransformer as S; S('intfloat/multilingual-e5-small')"
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: HF_HOME
+        value: /opt/render/project/src/.hf_cache
+
+# ── 輕量模式(免費方案可用)──
+# 1. 把上面 plan 改成 free
+# 2. buildCommand 改成: pip install -r requirements-lite.txt
+# 3. envVars 加上:  - key: EMBED_MODEL / value: none
